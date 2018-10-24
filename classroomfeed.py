@@ -30,5 +30,13 @@ def update_post():
     return redirect('/news-feed')
 
 
+@app.route("/comment_entry/<id>" , methods=['POST', 'GET'])
+def comment_entry(id):
+    print("hererer")
+    data = {id}
+    print(data)
+    return render_template('post_with_comments.html' , data = data)
+
+
 if __name__ == '__main__':
     app.run()
