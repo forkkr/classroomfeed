@@ -27,7 +27,7 @@ def update_post():
         data = request.form
         data = {"posttext": data['message'],"postfile": data['files']}
         posts = db.hello_world123
-        #post_id = posts.insert_one(data).inserted_id
+        post_id = posts.insert_one(data).inserted_id
     return redirect('/news-feed')
 
 
