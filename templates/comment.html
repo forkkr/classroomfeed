@@ -1,0 +1,11 @@
+{% extends 'feed_layout.html' %}
+{% block body %}
+        <div class="row">
+            {% include "me_and_others.html" %}
+
+            <div class="col-md-6 gedf-main">
+                {% include "post_with_comments.html" %}
+            </div>
+            {% include "assignments_and_tutorial.html" %}
+        </div>
+{% endblock %}
