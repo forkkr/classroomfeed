@@ -8,8 +8,7 @@ def hello_world():
     #data = {'string1': 'string32', 'string2': 'string22'}
     #posts = db.hello_world123
     #post_id = posts.insert_one(data).inserted_id
-    return render_template(
-        'feed.html', **locals() )
+    return redirect('/news-feed')
 
 
 @app.route("/news-feed")
@@ -25,9 +24,9 @@ def show_news_feed():
 def update_post():
     if request.method=="POST":
         data = request.form
-        data = {"posttext": data['message'],"postfile": data['files']}
+        data = {"posttext": data['message'],"postfile": data['files'] , "authors": "forkkr"}
         posts = db.hello_world123
-        post_id = posts.insert_one(data).inserted_id
+        #post_id = posts.insert_one(data).inserted_id
     return redirect('/news-feed')
 
 
