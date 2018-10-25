@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask import Flask, render_template, request, redirect, session
 from database.database import db
 app = Flask(__name__)
@@ -26,28 +27,29 @@ def update_post():
         data = request.form
         data = {"posttext": data['message'],"postfile": data['files'] , "authors": "forkkr"}
         posts = db.hello_world123
-        #post_id = posts.insert_one(data).inserted_id
+        post_id = posts.insert_one(data).inserted_id
     return redirect('/news-feed')
 
 
-@app.route("/comment_entry/<id>/<post>" , methods=['POST', 'GET'])
-def comment_entry(id,post):
-    print("hererer")
-    data = {id}
-    poststring=post;
-    pymongo_cursor = db.comments.find( { "postid" : id  } )
+@app.route("/comment_entry/<id>" , methods=['POST', 'GET'])
+def comment_entry(id):
+    poststring=db.hello_world123.find_one({'_id': ObjectId(id)});
+    pymongo_cursor = db.comments.find( { "postid" : id} )
     all_comments = list(pymongo_cursor)
     comments= all_comments
     print(comments)
-    return render_template('comment.html' ,poststring=poststring, data = data,comments=comments)
-@app.route("/entry_comment" , methods=['POST', 'GET'])
-def update_post():
+    return render_template('comment.html' ,poststring=poststring, comments=comments)
+
+
+@app.route("/entry_comment/<id>" , methods=['POST', 'GET'])
+def update_comment(id):
     if request.method=="POST":
         data = request.form
-        data = {"posttext": data['message'],"postfile": data['files'] , "authors": "forkkr"}
-        posts = db.hello_world123
-        #post_id = posts.insert_one(data).inserted_id
-    return redirect('/news-feed')
+        data = {"posttext": data['message'],"postid":id ,  "authors": "forkkr"}
+        posts = db.comments
+        post_id = posts.insert_one(data).inserted_id
+    return redirect('/comment_entry/'+str(id))
+
 
 if __name__ == '__main__':
     app.run()
